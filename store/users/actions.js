@@ -1,5 +1,5 @@
 
-const authToken = "token b4e8bb9d14174c84695dfa383307f6b2e4a05657";
+const authToken = "token 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";
 
 const gitHeader = {
   headers: {

@@ -38,7 +38,15 @@ export default {
     },
   methods:{
      search(){
-        this.$axios.get(`https://api.github.com/users/${this.text}`).then((res)=>{
+        const authToken = "token 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";
+
+        const gitHeader = {
+          headers: {
+            'Authorization': `${authToken}`
+          }
+        };
+       
+        this.$axios.get(`https://api.github.com/users/${this.text}`, gitHeader).then((res)=>{
             return this.$router.push('/user/'+this.text)
         }).catch((error)=>{
           console.log(error);
