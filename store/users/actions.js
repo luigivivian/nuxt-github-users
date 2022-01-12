@@ -1,4 +1,3 @@
-const authToken = "token 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";
 
 export default {
 
@@ -6,9 +5,7 @@ export default {
     async getUserByName({ commit}, payload){
       const response = await this.$axios.$get(`https://api.github.com/users/${payload}`,
       {
-          headers: {
-            'Authorization': `${authToken}`
-          }
+        
         }
       );
       const user = response;
@@ -19,9 +16,7 @@ export default {
     async getRepos({commit}, payload){
       const response = await this.$axios.$get(`https://api.github.com/users/${payload}/repos`,
       {
-          headers: {
-            'Authorization': `${authToken}`
-          }
+        
         }
       );
       const repos = response;
@@ -32,9 +27,7 @@ export default {
     async getStarredRepos({ commit}, payload){
       const response = await this.$axios.$get(`https://api.github.com/users/${payload}/starred`,
       {
-          headers: {
-            'Authorization': `${authToken}`
-          }
+         
         }
       );
       const starreds = response;
