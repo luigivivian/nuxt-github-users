@@ -1,9 +1,7 @@
-
-const authToken = "token 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";
-
-const gitHeader = {
-  headers: {
-    'Authorization': `${authToken}`
+const gitHeader =  {
+  auth: {
+    username: "ab5ad1019ec3d979ccc6",
+    password: "aad8c5e58d67c14a6ca8b51974eaa184f8b72e0c"
   }
 };
 
