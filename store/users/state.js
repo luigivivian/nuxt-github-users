@@ -2,6 +2,8 @@ export default () => ({
     user: {},
     repos: [],
     starreds: [],
-    middlewareValue: {}
+    middlewareValue: {},
+    repoIsLoading: false,
+    starredIsLoading: false
 })
   

@@ -1,7 +1,8 @@
 
-export default async function({store, params}){
+export default async function({store, params, from}){
     // middleware para carregamento de dados
-    await store.dispatch('users/getUserByName', params.name);
-    await store.dispatch('users/getRepos', params.name);
-    await store.dispatch('users/getStarredRepos', params.name);
+       const isInitialPageLoad = !from;
+       if(isInitialPageLoad){ // esquema pre loading, cacheado 
+        await store.dispatch('users/getUserByName', params.name);
+       }
 }

@@ -1,38 +1,57 @@
 
+const authToken = "token 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";
+
+const gitHeader = {
+  headers: {
+    'Authorization': `${authToken}`
+  }
+};
+
 export default {
 
   
     async getUserByName({ commit}, payload){
-      const response = await this.$axios.$get(`https://api.github.com/users/${payload}`,
-      {
-        
-        }
-      );
-      const user = response;
-
+      const user = await this.$axios.$get(`https://api.github.com/users/${payload}`, gitHeader);
       commit('SET_USER', user);
     },
 
     async getRepos({commit}, payload){
-      const response = await this.$axios.$get(`https://api.github.com/users/${payload}/repos`,
-      {
-        
-        }
-      );
-      const repos = response;
+      commit('SET_REPO_IS_LOADING', true);
+      const repos = await this.$axios.$get(`https://api.github.com/users/${payload}/repos`, gitHeader);
+      const getLangPromisses = [];
+      for(const r of repos){
+        // request buscando langs de cada repo
+        getLangPromisses.push(
+          this.$axios.$get(r.languages_url, gitHeader)
+        );
+      }
+      const getLangs = await Promise.all(getLangPromisses);
+      getLangs.forEach((elem, index) => {
+        repos[index].langs = Object.keys(elem);;
+      });
       commit('SET_REPOS', repos);
+      commit('SET_REPO_IS_LOADING', false);
   },
 
 
     async getStarredRepos({ commit}, payload){
-      const response = await this.$axios.$get(`https://api.github.com/users/${payload}/starred`,
-      {
-         
-        }
-      );
-      const starreds = response;
-
+      commit('SET_STARRED_IS_LOADING', true);
+      const starreds = await this.$axios.$get(`https://api.github.com/users/${payload}/starred`, gitHeader);
+      const getLangPromisses = [];
+      for(const r of starreds){
+        // request buscando langs de cada repo
+        getLangPromisses.push(
+          this.$axios.$get(r.languages_url, gitHeader)
+        );
+      }
+      const getLangs = await Promise.all(getLangPromisses);
+      getLangs.forEach((elem, index) => {
+        starreds[index].langs = Object.keys(elem);;
+      });
+      commit('SET_STARRED_IS_LOADING', false);
       commit('SET_STARREDS', starreds);
     },
+
+
     
-  };
+  }

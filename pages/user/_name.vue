@@ -1,14 +1,11 @@
 <template>
   <div>
-    <div>
-      <b-card no-body>
-        <b-tabs card>
+    <b-tabs card>
           <b-tab title="Resumo" active @click="resume()">
-
            <div>
-            <b-jumbotron bg-variant="info" text-variant="white" border-variant="dark">
+            <b-jumbotron>
               <b-container class="bv-example-row">
-                <b-row class="text-center">
+                <b-row class="text-left">
                   <b-col cols="4">
                       <div>
                         <b-card
@@ -27,13 +24,15 @@
                   </b-col>
 
                   <b-col cols="8">
+                      <hr>
                       <div class="mt-4">
-                          <h2>Resumo perfil de: {{user.login}}</h2>
-                          <h3>Repositorios privados: {{user.owned_private_repos}}</h3>
-                          <h3>Repositorios publicos: {{user.public_repos}}</h3>
-                          <h3>Seguidores: {{user.followers}}</h3>
-                          <h3>segue: {{user.following}}</h3>
+                          <h3 class="text-black">Resumo perfil de: {{user.login}}</h3>
+                          <h3 class="text-black">Repositorios privados: {{user.owned_private_repos}}</h3>
+                          <h3 class="text-black">Repositorios publicos: {{user.public_repos}}</h3>
+                          <h3 class="text-black">Seguidores: {{user.followers}}</h3>
+                          <h3 class="text-black">segue: {{user.following}}</h3>
                       </div>
+                      <hr>
                   </b-col>
 
                 </b-row>
@@ -45,17 +44,20 @@
           </div>
 
           </b-tab>
-          <b-tab title="Repositorios" @click="redirectRepo()">
+          <b-tab  @click="redirectRepo()">
+             <template #title>
+                <b-spinner type="grow" v-if="repoIsLoading" small></b-spinner>Repositorios
+              </template>
+       
             <nuxt-child></nuxt-child>
           </b-tab>
-          <b-tab title="Favoritos" @click="redirectStarred()">
+          <b-tab @click="redirectStarred()">
+              <template #title>
+                <b-spinner type="grow" v-if="starredIsLoading" small ></b-spinner>Favoritos
+              </template>
             <nuxt-child></nuxt-child>
           </b-tab>
         </b-tabs>
-      </b-card>
-    </div>
-
-      
   </div>
 
 </template>
@@ -66,21 +68,20 @@ import {mapState} from 'vuex';
   export default {
     middleware: ['load-user-and-repos'],
     async fetch({params, store}) {
-      // await store.dispatch('users/getUserByName', params.name);
-      // await store.dispatch('users/getRepos', params.name);
+      await store.dispatch('users/getUserByName', params.name);
     },
     computed: {
-      ...mapState('users', ['user', 'repos']) 
+      ...mapState('users', ['user', 'repos', 'repoIsLoading', 'starredIsLoading']) 
     },
     methods:{
       redirectRepo(){
-        this.$router.push('/user/luigivivian/user-repo')
+        this.$router.push('/user/'+this.$route.params.name+'/user-repo')
       },
       redirectStarred(){
-        this.$router.push('/user/luigivivian/user-starred')
+        this.$router.push('/user/'+this.$route.params.name+'/user-starred')
       },
       resume(){
-        this.$router.push('/user/luigivivian')
+        this.$router.push('/user/'+this.$route.params.name)
       }
     }
   

@@ -11,7 +11,7 @@
      
       <div class="mt-8 bg-white overflow-hidden shadow sm:rounded-lg p-20">
         <h2 class="text-2xl leading-7 font-semibold">
-          Pesquise por um nome
+          Pesquise por um nome de usuario do github
         </h2>
 
         <div class="row mt-2">
@@ -37,8 +37,14 @@ export default {
       }
     },
   methods:{
-    search(){
-        return this.$router.push('/user/'+this.text)
+     search(){
+        this.$axios.get(`https://api.github.com/users/${this.text}`).then((res)=>{
+            return this.$router.push('/user/'+this.text)
+        }).catch((error)=>{
+          console.log(error);
+          alert('user not found');
+          this.text= '';
+        });
     }
   }
 }
