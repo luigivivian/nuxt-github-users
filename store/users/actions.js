@@ -1,11 +1,4 @@
 
-const authToken = "token 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";
-
-const gitHeader = {
-  headers: {
-    'Authorization': `${authToken}`
-  }
-};
 
 export default {
 
