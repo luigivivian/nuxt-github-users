@@ -1,5 +1,10 @@
-const gitHeader = {
 
+const authToken = "token b4e8bb9d14174c84695dfa383307f6b2e4a05657";
+
+const gitHeader = {
+  headers: {
+    'Authorization': `${authToken}`
+  }
 };
 
 export default {
